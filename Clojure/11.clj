@@ -15,6 +15,8 @@
   (map s-to-int (string/split line #" ")))
 
 (def grid (map parse-line (gridify full-string)))
+(def dirs [[0 1] [1 0] [-1 -1] [1 -1]
+           [1 1] [0 1] [-1 0] [0 -1]])
 
 (defn grid-get
   [g r c]
@@ -38,9 +40,6 @@
                (+ c dc)
                (dec l)
                (* p (grid-get g r c)))))))
-
-(def dirs [[0 1] [1 0] [-1 -1] [1 -1]
-           [1 1] [0 1] [-1 0] [0 -1]])
 
 (defn max-k-adjacent
   [g k d]
