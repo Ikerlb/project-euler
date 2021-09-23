@@ -12,9 +12,5 @@
             (into np (range (* i i) u i))
             (conj p i)))))))
 
-(defn sum
-  [a & more]
-  (reduce + a more))
-
 (time (def sieve (sieve-upto 2000000)))
-(apply sum sieve)
+(apply + sieve)
