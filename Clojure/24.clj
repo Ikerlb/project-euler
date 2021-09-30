@@ -14,18 +14,9 @@
   [pos coll]
   (into (subvec coll 0 pos) (subvec coll (inc pos))))
 
-;; aux function that returns
-;; the index of the element
-;; that is to go next
-;; given the sorted vector of 
-;; possible digits and 0 <= n < (count sv)!
-(defn nth-perm-aux
-  [v n]
-  (let [m (factorial (dec (count v)))]
-    (loop [i 0]
-      (cond
-        (in-range (* m i) n (* m (inc i))) [i (* m i)]
-        :else (recur (inc i))))))
+(defn divmod
+  [a b]
+  [(quot a b) (mod a b)])
 
 ;; get nth permutation 
 ;; (obv in permutation)
@@ -35,10 +26,10 @@
   (loop [sv sv n n res []]
     (if (zero? n)
       (concat res sv)
-      (let [[i nn] (nth-perm-aux sv n)]
+      (let [[d m] (divmod n (factorial (dec (count sv))))]
         (recur
-          (vec-remove i sv)
-          (- n nn)
-          (conj res (sv i)))))))
+          (vec-remove d sv)
+          m 
+          (conj res (sv d)))))))
 
 (nth-perm (vec (range 10)) 999999)
