@@ -16,9 +16,10 @@ s=0
 for i in range(1,28123):
     for j in abundant:
         if i-j in abundant:
-            s+=i
             break
         elif (i<<1)>i:
+            s += i
             break
 
 print(timeit.default_timer() - start_time)
+print(s)
