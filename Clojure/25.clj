@@ -28,12 +28,12 @@
 ;; we know (as we can see in fn binet)
 ;; fn = round(phi**n / sqrt(5))
 
-;; 10**999 <= phi**n / sqrt(5) 
-;; 10**999*sqrt(5) <= phi**n
-;; log_phi(10**999*sqrt(5)) <= n
+;; 10**999 < phi**n / sqrt(5) 
+;; 10**999*sqrt(5) < phi**n
+;; log_phi(10**999*sqrt(5)) < n
 ;; this should be enough but java doesn't
 ;; have a generic base log function
 ;; log(10**999 * sqrt(5))) / log(phi) < n
-;; log(10**999) + log(sqrt(5))) / log(phi) < n
+;; (log(10**999) + log(sqrt(5))) / log(phi) < n
 ;; 999 * log(10) + log(5**(1/2)) 
 ;; (999 * log(10) + (1/2)log(5)) / log(phi) < n 
