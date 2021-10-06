@@ -1,0 +1,36 @@
+;; n² + an + b
+;; n(n + a) + b    
+;; abs(b) <= 1000 
+;; abs(a) < 1000
+
+(defn is-prime?
+  [n]
+  (if (zero? (mod n 2))
+    false
+    (let [upto (int (Math/sqrt n))]
+      (loop [i 3]
+        (cond
+          (>= i upto) true
+          (zero? (mod n i)) false
+          :else (recur (+ i 2)))))))
+
+
+(defn consecutive-primes
+  [a b]
+  (loop [i 0N]
+    (cond
+      (is-prime? (+ (* i (+ i a)) b)) (recur (inc i))
+      :else i)))
+;; -990 61
+(Math/1681)
+(is-prime? (+ (* 40 40) 40 41))
+
+(consecutive-primes 1 41)
+
+;; naive just iterate thru 
+;; all possible and check!
+(apply max-key
+  #(apply consecutive-primes %)
+  (for [a (range -999 1000)
+        b (range -1000 1001)]
+    (list a b)))
