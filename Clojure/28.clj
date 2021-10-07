@@ -7,8 +7,7 @@
       (inc res)
       (let [nn (* n n)
             delta (dec n)
-            sm (apply
-                 +
+            sm (apply +
                  (map
                    #(- nn (* delta %))
                    (range 4)))]
