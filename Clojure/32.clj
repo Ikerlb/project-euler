@@ -14,6 +14,7 @@
 ;; of the product is (denoted d(n))
 ;; d(n*m)=5 -> d(m) + d(n) should be 4
 ;; this however cannot happen
+(* 100 100)
 
 (defn divmod
   [n d]
@@ -60,8 +61,79 @@
     #(apply are-pandigital? %)
     (multiples n)))
 
-(apply 
-  + 
-  (filter
-    is-pandigital?
-    (range 1000 10000)))
+;; TODO: tail recur this thingy
+(defn combinations
+  [l k]
+  (cond
+    (zero? k) (list (list))
+    (empty? l) (list)
+    :else (concat
+            (map
+              #(conj % (first l))
+              (combinations (rest l) (dec k)))
+            (combinations (rest l) k))))
+
+
+(defn slice
+  [coll s e]
+  (take
+    (- e s) 
+    (drop
+      s
+      coll)))
+
+(defn insert-in-all-indices
+  [l e]
+  (let [c (count l)]
+   (map
+     #(concat
+        (slice l 0 %1)
+        (list e)
+        (slice l %1 c))
+     (range (inc c)))))
+
+
+;; TODO: tail recur this thingy
+(defn permutations
+  [l]
+  (if (empty? l)
+    (list (list)) 
+    (mapcat
+      #(insert-in-all-indices %1 (first l))
+      (permutations (rest l)))))
+
+;; maybe do this without permutations
+;; and combinations
+(defn combine-and-permute 
+  [l k]
+  (mapcat permutations (combinations l k)))
+
+(defn to-number
+  [l]
+  (loop [l l res 0]
+    (if (empty? l)
+      res
+      (recur
+        (rest l)
+        (+ (* res 10) (first l))))))
+
+;; maybe faster with permutations
+;; and combinations? idk
+(time
+  (apply
+    +
+    (filter
+      is-pandigital?
+      (range 1000 10000))))
+
+;; it is at least
+;; twice as fast
+;; O.o
+(time
+  (apply
+    +
+    (filter
+      is-pandigital?
+      (map
+        to-number
+        (combine-and-permute (range 1 10) 4)))))
