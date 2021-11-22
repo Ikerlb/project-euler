@@ -70,4 +70,4 @@
         (sieve (dec (pow 10 (number-of-digits upto))))]
     (filter #(is-circular? % primes) (range 1 upto))))
 
-(count (circular-primes 1000000))
+(time (count (circular-primes 1000000)))
